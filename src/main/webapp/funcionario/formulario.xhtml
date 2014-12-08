@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="../template.xhtml">
+
+        <ui:define name="container">
+
+            <h:form id="formCadastro">
+                <p:panel header="Funcinário" id="painelCadastro">
+                    <p:growl />
+                    <h:inputHidden value="#{funcionarioManagedBean.funcionario.idPessoa}"/>
+                    <h:panelGrid columns="2">
+
+                        <h:outputLabel value="Nome:*"/>
+                        <p:inputText value="#{funcionarioManagedBean.funcionario.nome}"/>
+
+                        <h:outputLabel value="CPF:*"/>
+                        <p:inputMask mask="999.999.999-99" value="#{funcionarioManagedBean.funcionario.cpf}"/>
+
+                        <h:outputLabel value="Salário:*"/>
+                        <p:inputText label="Valor" value="#{funcionarioManagedBean.funcionario.salario}">
+                            <f:convertNumber type="number" pattern="0.00" maxFractionDigits="2" groupingUsed="false"/>
+                        </p:inputText>
+
+                        <h:outputLabel value="Data Nasc.:*"/>
+                        <p:calendar value="#{funcionarioManagedBean.funcionario.dataNascimento}"
+                                    locale="pt_BR" navigator="true" pattern="dd/MM/yyyy" />
+
+
+                        <h:outputLabel value="Usuário:*"/>
+                        <p:inputText value="#{funcionarioManagedBean.funcionario.usuario.login}"/>
+                        
+                        <h:outputLabel value="Senha:*"/>
+                        <p:password value="#{funcionarioManagedBean.funcionario.usuario.senha}"
+                                    feedback="true"/>
+                    </h:panelGrid>
+
+                    <p:button  icon="ui-icon-arrowreturnthick-1-w" 
+                               value="Voltar"
+                               outcome="index.html"/>
+
+                    <p:commandButton
+                        value="Salvar"
+                        icon="ui-icon-disk" 
+                        actionListener="#{funcionarioManagedBean.salvar()}" 
+                        update="painelCadastro" />
+
+
+                    <p:button  icon="ui-icon-plus" 
+                               value="Novo"
+                               outcome="formulario.html"/>
+                </p:panel> 
+            </h:form>
+
+
+        </ui:define>
+    </ui:composition>
+
+
+</html>

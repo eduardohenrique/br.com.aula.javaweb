@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="../template.xhtml">
+
+        <ui:define name="container">
+
+            <h:form id="formCadastro">
+                <p:panel header="Automóvel" id="painelCadastro">
+                    <p:growl />
+                    <h:inputHidden value="#{automovelManagedBean.automovel.idAutomovel}"/>
+                    <h:panelGrid columns="2">
+
+                        <h:outputLabel value="Ano:*"/>
+                        <p:inputText value="#{automovelManagedBean.automovel.ano}"/>
+
+                        <h:outputLabel value="Qtd Portas:*"/>
+                        <p:inputText value="#{automovelManagedBean.automovel.quantidadePortas}"/>
+
+                        <h:outputLabel value="Valor:"/>
+                        <p:inputText label="Valor" value="#{automovelManagedBean.automovel.valor}">
+                            <f:convertNumber type="number" pattern="0.00" maxFractionDigits="2" groupingUsed="false"/>
+                        </p:inputText>
+
+                        <h:outputLabel value="Marca:*"/>
+                        <p:selectOneMenu value="#{automovelManagedBean.marca}"
+                                         converter="marcaConverter">
+                            <f:selectItem itemLabel="Selecione uma marca" itemValue=""/>
+                            <f:selectItems value="#{marcaManagedBean.todos()}"
+                                           var="m"
+                                           itemLabel="#{m.descricao}"
+                                           itemValue="#{m}"/>
+                            <p:ajax update="comboModelo"
+                                    listener="#{automovelManagedBean.listarPorMarca()}"/>
+                        </p:selectOneMenu>
+
+                        <h:outputLabel value="Modelo:*"/>
+                        <p:selectOneMenu value="#{automovelManagedBean.automovel.modelo}"
+                                         converter="modeloConverter"
+                                         id="comboModelo">
+                            <f:selectItem itemLabel="Selecione um modelo" itemValue=""/>
+                            <f:selectItems value="#{automovelManagedBean.modelos}"
+                                           var="m"
+                                           itemLabel="#{m.descricao}"
+                                           itemValue="#{m}"/>
+                        </p:selectOneMenu>
+
+                        <h:outputLabel value="Cor:*"/>
+                        <p:selectOneMenu value="#{automovelManagedBean.automovel.cor}"
+                                         converter="corConverter">
+                            <f:selectItem itemLabel="Selecione uma cor" itemValue=""/>
+                            <f:selectItems value="#{corManagedBean.todos()}"
+                                           var="c"
+                                           itemLabel="#{c.descricao}"
+                                           itemValue="#{c}"/>
+                        </p:selectOneMenu>
+
+                        <h:outputLabel value="Combustivel*"/>
+                        <p:selectOneMenu value="#{automovelManagedBean.automovel.combustivel}"
+                                         converter="combustivelConverter">
+                            <f:selectItem itemLabel="Selecione o tipo de combustivel" itemValue=""/>
+                            <f:selectItems value="#{combustivelManagedBean.todos()}"
+                                           var="c"
+                                           itemLabel="#{c.descricao}"
+                                           itemValue="#{c}"/>
+                        </p:selectOneMenu>
+                        
+                        <h:outputLabel value="Opcionais:"/>
+                        <p:selectManyCheckbox value="#{automovelManagedBean.automovel.opcionais}"
+                                              converter="opcionalConverter">
+                            <f:selectItems value="#{opcionalManagedBean.todos()}"
+                                           var="o"
+                                           itemLabel="#{o.descricao}"
+                                           itemValue="#{o}"/>
+                        </p:selectManyCheckbox>
+
+                    </h:panelGrid>
+
+                    <p:button  icon="ui-icon-arrowreturnthick-1-w" 
+                               value="Voltar"
+                               outcome="index.html"/>
+
+                    <p:commandButton
+                        value="Salvar"
+                        icon="ui-icon-disk" 
+                        actionListener="#{automovelManagedBean.salvar()}" 
+                        update="painelCadastro" />
+
+
+                    <p:button  icon="ui-icon-plus" 
+                               value="Novo"
+                               
+                               outcome="formulario.html"/>
+                </p:panel> 
+            </h:form>
+
+
+        </ui:define>
+    </ui:composition>
+
+
+</html>

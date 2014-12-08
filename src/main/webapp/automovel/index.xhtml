@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="../template.xhtml">
+
+        <ui:define name="container">
+
+            <h:form>
+                <p:panel header="Consultar Automóveis">
+
+
+                    <h:panelGrid columns="2">
+
+                        <h:outputLabel value="Marca:*"/>
+                        <p:inputText value="#{automovelManagedBean.marcaConsulta}" size="50"/>
+
+                        <p:commandButton
+                            value="Procurar"
+                            icon="ui-icon-search" 
+                            actionListener="#{automovelManagedBean.consultarAutomovel()}" 
+                            update="painelVeiculos" />
+
+                        <p:button  icon="ui-icon-plus" 
+                                   value="Novo"
+                                   outcome="formulario.html"/>
+                    </h:panelGrid>
+
+                </p:panel>
+
+                <p:contextMenu for="tabela">   
+                    <p:menuitem value="Excluir" icon="ui-icon-close" 
+                                actionListener="#{automovelManagedBean.excluir()}" 
+                                update="painelVeiculos" />
+
+                    <p:menuitem value="Editar" icon="ui-icon-pencil"
+                                ajax="false"
+                                action="#{automovelManagedBean.editar()}"/> 
+                </p:contextMenu>  
+
+
+                <p:outputPanel id="painelVeiculos">
+
+                    <p:dataTable value="#{automovelManagedBean.automoveis}"
+                                 var="auto"
+                                 id="tabela"
+                                 rendered="#{automovelManagedBean.automoveis != null}"
+                                 paginator="true"
+                                 rows="10"
+                                 emptyMessage="Nenhuma automóvel encontrado"
+                                 rowKey="#{auto.idAutomovel}" 
+                                 selection="#{automovelManagedBean.automovelSelecionado}"
+                                 selectionMode="single">
+
+                        <p:column headerText="Código" style="width: 10%">#{auto.idAutomovel}</p:column>
+
+                        <p:column headerText="Ano" style="width: 10%">
+                            #{auto.ano}
+                        </p:column>
+
+                        <p:column headerText="Portas" style="width: 10%">
+                            #{auto.quantidadePortas}
+                        </p:column>
+
+                        <p:column headerText="Valor" style="width: 10%">
+                            <h:outputText value="#{auto.valor}">
+                                <f:convertNumber type="currency" maxFractionDigits="2"/>
+                            </h:outputText>
+
+                        </p:column>
+
+                        <p:column headerText="Combustível" style="width: 10%">
+                            #{auto.combustivel.descricao}
+                        </p:column>
+
+                        <p:column headerText="Cor" style="width: 10%">
+                            #{auto.cor.descricao}
+                        </p:column>
+
+                        <p:column headerText="Modelo" style="width: 20%">
+                            #{auto.modelo.marca.descricao} - #{auto.modelo.descricao}
+                        </p:column>
+
+                        <p:column headerText="Opcionais" style="width: 20%">
+                            
+                            <ui:repeat value="#{auto.opcionais}" var="o">
+                                #{o.descricao}
+                            </ui:repeat>
+
+                        </p:column>
+                    </p:dataTable>
+                </p:outputPanel>
+            </h:form>
+
+        </ui:define>
+    </ui:composition>
+
+
+</html>

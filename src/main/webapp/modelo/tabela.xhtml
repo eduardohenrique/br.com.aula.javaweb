@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:h="http://java.sun.com/jsf/html">
+
+
+    <h:form id="formTabela"> 
+
+        <p:contextMenu for="tabela">   
+            <p:menuitem value="Excluir" icon="ui-icon-close" 
+                        actionListener="#{modeloManagedBean.excluir()}" 
+                        update="painelModelo" />
+
+            <p:menuitem value="Editar" icon="ui-icon-pencil"
+                        actionListener="#{modeloManagedBean.editar()}"
+                        update=":formCadastro:painelCadastro"/> 
+        </p:contextMenu>  
+
+        <p:panel header="Modelos cadastradas" id="painelModelo">
+            <p:growl />
+            <p:dataTable value="#{modeloManagedBean.todos()}"
+                         var="modelo"
+                         id="tabela"
+                         paginator="true"
+                         rows="10"
+                         emptyMessage="Nenhum modelo encontrada"
+                         rowKey="#{modelo.idModelo}"  
+                         selection="#{modeloManagedBean.modeloSelecionado}"
+                         selectionMode="single">
+
+                <p:column headerText="Código" style="width: 10%">#{modelo.idModelo}</p:column>
+
+                <p:column headerText="Descrição" style="width: 50%">
+                    #{modelo.descricao}
+                </p:column>
+
+                <p:column headerText="Marca" style="width: 40%">
+                    #{modelo.marca.descricao}
+                </p:column>
+
+            </p:dataTable>
+        </p:panel>
+    </h:form>
+
+</ui:fragment>

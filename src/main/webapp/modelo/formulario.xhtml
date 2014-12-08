@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:h="http://java.sun.com/jsf/html"
+             xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:form id="formCadastro">
+        <p:panel header="Modelo" id="painelCadastro">
+            <p:growl />
+            <h:inputHidden value="#{modeloManagedBean.modelo.idModelo}"/>
+            <h:panelGrid columns="2">
+
+                <h:outputLabel value="Descrição:*"/>
+                <p:inputText value="#{modeloManagedBean.modelo.descricao}"/>
+                
+                <h:outputLabel value="Marca*"/>
+                <p:selectOneMenu value="#{modeloManagedBean.modelo.marca}"
+                                 converter="marcaConverter">
+                    <f:selectItem itemLabel="Selecione uma marca" itemValue=""/>
+                    <f:selectItems value="#{marcaManagedBean.todos()}"
+                                   var="m"
+                                   itemLabel="#{m.descricao}"
+                                   itemValue="#{m}"/>
+                </p:selectOneMenu>
+
+            </h:panelGrid>
+
+            <p:commandButton
+                value="Salvar"
+                icon="ui-icon-disk" 
+                actionListener="#{modeloManagedBean.salvar()}" 
+                update="painelCadastro,:formTabela:tabela" />
+
+            <p:commandButton
+                value="Novo"
+                icon="ui-icon-plus" 
+                process="@this"
+                actionListener="#{modeloManagedBean.novo()}"
+                update="painelCadastro" />
+        </p:panel>
+    </h:form>
+</ui:fragment>
+
